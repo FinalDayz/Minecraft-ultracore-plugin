@@ -1,0 +1,8 @@
+package com.ultracore.difficulty;
+
+public enum ChanceTypes {
+    ARMOR_LEATHER, ARMOR_IRON, ARMOR_DIAMOND,
+    SWORD_WOOD, SWORD_STONE, SWORD_IRON, SWORD_DIAMOND,
+
+    EFFECT_STRENGTH_1, EFFECT_STRENGTH_2
+}
