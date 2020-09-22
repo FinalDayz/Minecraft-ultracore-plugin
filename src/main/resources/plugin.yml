@@ -2,3 +2,8 @@ name: Ultracore-plugin
 version: 0.1.0
 author: FinalDayz
 main: com.ultracore.UltraCore
+commands:
+  ultracore:
+    description: Change UltraCore settings
+    usage: /ultracore easy/medium/hard
+    permission: yourplugin.yourcommandpermission

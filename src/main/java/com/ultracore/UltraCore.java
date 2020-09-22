@@ -1,5 +1,6 @@
 package com.ultracore;
 
+import com.ultracore.difficulty.Difficulty;
 import com.ultracore.difficulty.EasyDifficulty;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,9 +8,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UltraCore extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
-        getServer().getPluginManager().registerEvents(
-                new UltraMobSpawner(new EasyDifficulty()),
-                this);
+
+        UltraMobSpawner mobSpawner = new UltraMobSpawner(this, new EasyDifficulty());
+
+        getServer().getPluginManager().registerEvents(mobSpawner, this);
+        getCommand("ultracore").setExecutor(new UltraCoreCommands(mobSpawner));
     }
 
     @Override

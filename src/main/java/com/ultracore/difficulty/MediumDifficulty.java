@@ -1,9 +1,9 @@
 package com.ultracore.difficulty;
 
-public class EasyDifficulty extends Difficulty {
+public class MediumDifficulty extends Difficulty {
 
     @Override
     double getMultiplier() {
-        return 1;
+        return 3;
     }
 }
