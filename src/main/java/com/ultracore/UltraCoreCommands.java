@@ -9,10 +9,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class UltraCoreCommands implements CommandExecutor {
-    private final UltraMobSpawner mobSpawner;
+    private final UltraCore plugin;
 
-    public UltraCoreCommands(UltraMobSpawner mobSpawner) {
-        this.mobSpawner = mobSpawner;
+    public UltraCoreCommands(UltraCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -23,15 +23,15 @@ public class UltraCoreCommands implements CommandExecutor {
         String diffifulty = args[0];
 
         if(diffifulty.equals("easy")) {
-            this.mobSpawner.setDifficultyMode(new EasyDifficulty());
+            plugin.setDifficultyMode(new EasyDifficulty());
             sender.sendMessage("Successfully changed difficulty to easy");
             return true;
         } else if(diffifulty.equals("medium")) {
-            this.mobSpawner.setDifficultyMode(new MediumDifficulty());
+            plugin.setDifficultyMode(new MediumDifficulty());
             sender.sendMessage("Successfully changed difficulty to medium");
             return true;
         } else if(diffifulty.equals("hard")) {
-            this.mobSpawner.setDifficultyMode(new HardDifficulty());
+            plugin.setDifficultyMode(new HardDifficulty());
             sender.sendMessage("Successfully changed difficulty to hard");
             return true;
         }

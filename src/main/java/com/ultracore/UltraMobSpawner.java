@@ -18,20 +18,17 @@ import java.util.HashMap;
 
 public class UltraMobSpawner implements Listener {
 
-    private final JavaPlugin plugin;
-    private DifficultyMode difficultyMode;
+    private final UltraCore plugin;
 
-    public UltraMobSpawner(JavaPlugin plugin, DifficultyMode difficultyMode) {
+    public UltraMobSpawner(UltraCore plugin) {
         this.plugin = plugin;
-        this.difficultyMode = difficultyMode;
-    }
-
-    public void setDifficultyMode(DifficultyMode difficultyMode) {
-        this.difficultyMode = difficultyMode;
     }
 
     @EventHandler
     public void monsterSpawn(CreatureSpawnEvent event) {
+        if(event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM)
+            return;
+
         if(event.getEntity() instanceof Zombie) {
             Monster entity  = (Monster) event.getEntity();
             enhanceSword((Monster) event.getEntity());
@@ -65,14 +62,14 @@ public class UltraMobSpawner implements Listener {
     private void enhanceBow(Skeleton skeleton) {
         ItemStack bow = new ItemStack(Material.BOW, 1);
 
-        ChanceTypes knockBack = randomDifficultyValue(difficultyMode.getBowKnockbackEnchantChance());
+        ChanceTypes knockBack = randomDifficultyValue(plugin.getDifficulty().getBowKnockbackEnchantChance());
         if(knockBack == ChanceTypes.BOW_ENCHANT_KNOCKBACK_1) {
             bow.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
         } else if(knockBack == ChanceTypes.BOW_ENCHANT_KNOCKBACK_2) {
             bow.addEnchantment(Enchantment.ARROW_KNOCKBACK, 2);
         }
 
-        ChanceTypes power = randomDifficultyValue(difficultyMode.getBowPowerEnchantChance());
+        ChanceTypes power = randomDifficultyValue(plugin.getDifficulty().getBowPowerEnchantChance());
         if(power == ChanceTypes.BOW_ENCHANT_POWER_1) {
             bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
         } else if(power == ChanceTypes.BOW_ENCHANT_POWER_2) {
@@ -88,21 +85,21 @@ public class UltraMobSpawner implements Listener {
 
     private void enhanceArmor(Monster monster) {
         monster.getEquipment().setHelmet(
-                getArmor(randomDifficultyValue(difficultyMode.getArmorChance()), ArmorType.HELMET)
+                getArmor(randomDifficultyValue(plugin.getDifficulty().getArmorChance()), ArmorType.HELMET)
         );
         monster.getEquipment().setChestplate(
-            getArmor(randomDifficultyValue(difficultyMode.getArmorChance()), ArmorType.CHESTPLATE)
+            getArmor(randomDifficultyValue(plugin.getDifficulty().getArmorChance()), ArmorType.CHESTPLATE)
         );
         monster.getEquipment().setLeggings(
-            getArmor(randomDifficultyValue(difficultyMode.getArmorChance()), ArmorType.LEGGING)
+            getArmor(randomDifficultyValue(plugin.getDifficulty().getArmorChance()), ArmorType.LEGGING)
         );
         monster.getEquipment().setBoots(
-            getArmor(randomDifficultyValue(difficultyMode.getArmorChance()), ArmorType.BOOTS)
+            getArmor(randomDifficultyValue(plugin.getDifficulty().getArmorChance()), ArmorType.BOOTS)
         );
     }
 
     private void enhanceEffect(Monster monster) {
-        ChanceTypes type = randomDifficultyValue(difficultyMode.getEffectChance());
+        ChanceTypes type = randomDifficultyValue(plugin.getDifficulty().getEffectChance());
         if(type == ChanceTypes.EFFECT_STRENGTH_1) {
             monster.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 1));
         } else if(type == ChanceTypes.EFFECT_STRENGTH_2) {
@@ -131,7 +128,7 @@ public class UltraMobSpawner implements Listener {
     }
 
     private void enhanceSword(Monster monster) {
-        ChanceTypes type = randomDifficultyValue(difficultyMode.getSwordChance());
+        ChanceTypes type = randomDifficultyValue(plugin.getDifficulty().getSwordChance());
         if(type == ChanceTypes.SWORD_WOOD) {
             monster.getEquipment().setItemInMainHand(new ItemStack(Material.WOODEN_SWORD));
         } else if(type == ChanceTypes.SWORD_STONE) {

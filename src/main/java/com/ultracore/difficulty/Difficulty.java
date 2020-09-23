@@ -1,5 +1,7 @@
 package com.ultracore.difficulty;
 
+import org.bukkit.entity.EntityType;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -7,9 +9,21 @@ public abstract class Difficulty implements DifficultyMode {
 
     abstract double getMultiplier();
 
-    private HashMap<ChanceTypes, Double> applyMultiplier(HashMap<ChanceTypes, Double> chance) {
-        chance.replaceAll((t, v) -> chance.get(t) * getMultiplier());
+    private <T> HashMap<T, Double> applyMultiplier(HashMap<T, Double> chance) {
+        chance.replaceAll((k, v) -> chance.get(k) * getMultiplier());
         return chance;
+    }
+
+    @Override
+    public HashMap<EntityType, Double> getMobSpawnChance() {
+        HashMap<EntityType, Double> chance = new LinkedHashMap<>();
+
+        chance.put(EntityType.ZOMBIE, 0.2);
+        chance.put(EntityType.SKELETON, 0.1);
+        chance.put(EntityType.SPIDER, 0.5);
+        chance.put(EntityType.ENDERMAN, 0.05);
+
+        return applyMultiplier(chance);
     }
 
     @Override
